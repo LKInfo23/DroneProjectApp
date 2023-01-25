@@ -137,10 +137,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private String generateGoToCommand(Vector3D v) {
-        return "go " + ((int) v.getX() * 10) + " " + ((int) v.getY() * 10) + " " + ((int) v.getZ() * 10) + " 10";
+    private static int goValueCorrected(double value) {
+        // for x = 0: 0
+        // otherwise: 10 * x * ln(x) / 4 + 5
+        return value == 0 ? 0 : (int) (10 * value * Math.log(value) / 4 + 5);
     }
 
+    private String generateGoToCommand(Vector3D v) {
+        return "go " + goValueCorrected(v.getX()) + " " + goValueCorrected(v.getY()) + " " + goValueCorrected(v.getZ()) + " 10";
+    }
 
     private void initVariables() {
         droneCommunicator = new DroneCommunicator("192.168.10.1", 8889, this.getApplicationContext());
