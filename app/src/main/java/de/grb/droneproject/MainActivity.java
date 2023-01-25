@@ -90,9 +90,9 @@ public class MainActivity extends AppCompatActivity {
 
             } else {
                 // gets input
-                double x = Double.parseDouble(inputX.getText().toString());
-                double y = Double.parseDouble(inputY.getText().toString());
-                double z = Double.parseDouble(inputZ.getText().toString());
+                double x = Double.parseDouble("0" + inputX.getText().toString());
+                double y = Double.parseDouble("0" + inputY.getText().toString());
+                double z = Double.parseDouble("0" + inputZ.getText().toString());
                 resultText.setVisibility(TextView.VISIBLE);
                 // checks if input is correct
                 if (exerciseGen.isSolution(new Vector3D(x, y, z))) {
