@@ -110,24 +110,15 @@ public class MainActivity extends AppCompatActivity {
 
         droneButton.setOnClickListener(v -> {
             if (!goNext) {
-                resultText.setVisibility(TextView.VISIBLE);
-                resultText.setTextColor(Color.RED);
-                resultText.setText("Du musst erst die Aufgabe lösen oder die drone ist nicht verbunden");
-                resultText.startAnimation(out);
+                showText("Du musst erst die Aufgabe lösen oder die drone ist nicht verbunden", Color.GREEN);
             }
             if (goNext) {
                 if (droneCommunicator.isConnected()) {
-                    resultText.setVisibility(TextView.VISIBLE);
-                    resultText.setTextColor(Color.GREEN);
-                    resultText.setText("Drone wird gestartet");
-                    resultText.startAnimation(out);
+                    showText("Drone fliegt zum Ziel", Color.GREEN);
                     droneCommunicator.send(generateGoToCommand(exerciseGen.getSolution()));
                     droneButton.setEnabled(false);
                 } else {
-                    resultText.setVisibility(TextView.VISIBLE);
-                    resultText.setTextColor(Color.RED);
-                    resultText.setText("Drone ist nicht verbunden, versuche es erneut");
-                    resultText.startAnimation(out);
+                    showText("Drone ist nicht verbunden", Color.RED);
                     droneCommunicator.connectToDrone();
                 }
             }
@@ -136,33 +127,34 @@ public class MainActivity extends AppCompatActivity {
         droneSwitch.setOnClickListener(v -> {
             if (droneSwitch.isChecked()) {
                 droneCommunicator = new DroneCommunicator("192.168.10.1", 8889, this.getApplicationContext());
-                resultText.setVisibility(TextView.VISIBLE);
-                resultText.setTextColor(Color.RED);
-                resultText.setText("Drone wird gestartet");
-                resultText.startAnimation(out);
                 if (droneCommunicator.connectToDrone()) {
-                    resultText.setVisibility(TextView.VISIBLE);
-                    resultText.setTextColor(Color.GREEN);
-                    resultText.setText("Drone verbunden");
-                    resultText.startAnimation(out);
-                    droneCommunicator.send("takeoff");
+                    showText("Drone verbunden", Color.GREEN);
+                    String takeoff = droneCommunicator.sendAndReceive("takeoff");
+                    if (!takeoff.equals("ok")) {
+                        handleError("Drone konnte nicht gestartet. Überprüfe die Akkuladung.");
+                    }
                 } else {
-                    resultText.setVisibility(TextView.VISIBLE);
-                    resultText.setTextColor(Color.RED);
-                    resultText.setText("Drone konnte nicht verbunden werden");
-                    resultText.startAnimation(out);
-                    droneSwitch.setChecked(false);
+                    handleError("Drone konnte nicht verbunden werden");
                 }
             } else {
-                if (droneCommunicator != null) droneCommunicator.send("land");
-                resultText.setVisibility(TextView.VISIBLE);
-                resultText.setTextColor(Color.RED);
-                resultText.setText("Drone wird gelandet");
-                resultText.startAnimation(out);
-                droneCommunicator.disconnect();
+                if (droneCommunicator != null) droneCommunicator.sendAndReceive("land");
+                handleError("drone wurde getrennt");
             }
         });
 
+    }
+
+    private void handleError(String text) {
+        showText(text, Color.RED);
+        droneSwitch.setChecked(false);
+        droneCommunicator.disconnect();
+    }
+
+    private void showText(String text, int color) {
+        resultText.setVisibility(TextView.VISIBLE);
+        resultText.setTextColor(color);
+        resultText.setText(text);
+        resultText.startAnimation(out);
     }
 
     private static int goValueCorrected(double value) {

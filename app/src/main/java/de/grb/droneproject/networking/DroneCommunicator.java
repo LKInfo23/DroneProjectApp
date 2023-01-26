@@ -34,22 +34,7 @@ public class DroneCommunicator {
         } catch (SocketException e) {
             e.printStackTrace();
         }
-        connectToDrone();
-        // this is technically not the way according to java convention, but it is more readable
-//        new Thread(() -> {
-//            while (true) {
-//                if (connected && (System.currentTimeMillis() - lastSent) > 3000) {
-//                    if (droneSocket.isConnected()) {
-//                        send("battery?");
-//                    }
-//                }
-//                try {
-//                    Thread.sleep(500);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        }).start();
+
     }
 
     public DroneCommunicator(String host, int port, Context appContext) {
@@ -70,8 +55,8 @@ public class DroneCommunicator {
             connected = false;
             e.printStackTrace();
         }
-        if (connected) send("command");
-        return connected;
+        if (connected) return sendAndReceive("command").equalsIgnoreCase("ok");
+        return false;
     }
 
     /**
@@ -84,7 +69,10 @@ public class DroneCommunicator {
         if (droneSocket == null) return;
         try {
             DatagramPacket dp = new DatagramPacket(message.getBytes(StandardCharsets.UTF_8), message.length(), InetAddress.getByName(host), port);
-            if (droneSocket.isConnected()) droneSocket.send(dp);
+            if (droneSocket.isConnected()) {
+                droneSocket.send(dp);
+                System.out.println("sent: " + message);
+            }
 
             lastSent = System.currentTimeMillis();
         } catch (IOException e) {
@@ -108,7 +96,9 @@ public class DroneCommunicator {
      */
     public String sendAndReceive(String message) {
         send(message);
-        return receive();
+        String receive = receive();
+        System.out.println("in: "+receive);
+        return receive;
     }
 
     /**
@@ -121,12 +111,13 @@ public class DroneCommunicator {
         byte[] buffer = new byte[1024];
         DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
         try {
+            droneSocket.setSoTimeout(250);
             droneSocket.receive(dp);
             return new String(dp.getData(), 0, dp.getLength(), StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return "";
     }
 
     public String getHost() {
