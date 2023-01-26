@@ -28,22 +28,28 @@ public class DroneCommunicator {
     public DroneCommunicator(String host, int port) {
         this.host = host;
         this.port = port;
+        try {
+            droneSocket = new DatagramSocket(8890);
+            droneSocket.setReuseAddress(true);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
         connectToDrone();
         // this is technically not the way according to java convention, but it is more readable
-        new Thread(() -> {
-            while (true) {
-                if (connected && (System.currentTimeMillis() - lastSent) > 3000) {
-                    if (droneSocket.isConnected()) {
-                        send("battery?");
-                    }
-                }
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }).start();
+//        new Thread(() -> {
+//            while (true) {
+//                if (connected && (System.currentTimeMillis() - lastSent) > 3000) {
+//                    if (droneSocket.isConnected()) {
+//                        send("battery?");
+//                    }
+//                }
+//                try {
+//                    Thread.sleep(500);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        }).start();
     }
 
     public DroneCommunicator(String host, int port, Context appContext) {
@@ -51,17 +57,21 @@ public class DroneCommunicator {
         this.appContext = appContext;
     }
 
-    public void connectToDrone() {
-
-        if (connected && droneSocket.isConnected()) return;
+    public boolean connectToDrone() {
         try {
-            droneSocket = new DatagramSocket(8890);
+            if (droneSocket == null) {
+                droneSocket = new DatagramSocket(8890);
+                droneSocket.setReuseAddress(true);
+            }
+
             droneSocket.connect(InetAddress.getByName(this.host), this.port);
             connected = droneSocket.isConnected();
-        } catch (SocketException | UnknownHostException e) {
+        } catch (UnknownHostException | SocketException e) {
             connected = false;
+            e.printStackTrace();
         }
-        send("command");
+        if (connected) send("command");
+        return connected;
     }
 
     /**
@@ -71,13 +81,22 @@ public class DroneCommunicator {
      * @param message The message that should be sent to the drone.
      */
     public void send(String message) {
+        if (droneSocket == null) return;
         try {
             DatagramPacket dp = new DatagramPacket(message.getBytes(StandardCharsets.UTF_8), message.length(), InetAddress.getByName(host), port);
-            droneSocket.send(dp);
+            if (droneSocket.isConnected()) droneSocket.send(dp);
 
             lastSent = System.currentTimeMillis();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void disconnect() {
+        if (droneSocket != null) {
+            droneSocket.disconnect();
+            droneSocket.close();
+            droneSocket = null;
         }
     }
 

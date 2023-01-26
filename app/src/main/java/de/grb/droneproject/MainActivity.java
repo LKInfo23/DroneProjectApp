@@ -45,17 +45,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
-        if (SDK_INT > 8)
-        {
+        if (SDK_INT > 8) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                     .permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            //your codes here
 
         }
 
         initVariables();
         initExercise();
+    }
+
+    @Override
+    protected void onDestroy() {
+        droneCommunicator.disconnect();
+        super.onDestroy();
     }
 
     @SuppressLint("SetTextI18n")
@@ -69,12 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
         // listener
         checkButton.setOnClickListener(v -> {
-            if (fly) {
-                droneCommunicator.send("takeoff");
-            } else {
-                droneCommunicator.send("land");
-            }
-            fly = !fly;
+
             // goNext = true means that the next excercise will be generated
             if (goNext) {
                 // generate new exercise
@@ -98,14 +97,13 @@ public class MainActivity extends AppCompatActivity {
                 if (exerciseGen.isSolution(new Vector3D(x, y, z))) {
                     resultText.setTextColor(Color.rgb(0, 255, 0));
                     resultText.setText("Richtig");
-                    droneButton.setEnabled(true);
-                    goNext = true;
+                    droneButton.setEnabled(droneSwitch.isChecked());
                     checkButton.setText("Next");
                 } else {
                     resultText.setTextColor(Color.RED);
                     resultText.setText("Falsch, " + exerciseGen.getSolution().toString() + " wäre richtig gewesen");
-                    goNext = true;
                 }
+                goNext = true;
                 resultText.startAnimation(out);
             }
         });
@@ -135,6 +133,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        droneSwitch.setOnClickListener(v -> {
+            if (droneSwitch.isChecked()) {
+                droneCommunicator = new DroneCommunicator("192.168.10.1", 8889, this.getApplicationContext());
+                resultText.setVisibility(TextView.VISIBLE);
+                resultText.setTextColor(Color.RED);
+                resultText.setText("Drone wird gestartet");
+                resultText.startAnimation(out);
+                if (droneCommunicator.connectToDrone()) {
+                    resultText.setVisibility(TextView.VISIBLE);
+                    resultText.setTextColor(Color.GREEN);
+                    resultText.setText("Drone verbunden");
+                    resultText.startAnimation(out);
+                    droneCommunicator.send("takeoff");
+                } else {
+                    resultText.setVisibility(TextView.VISIBLE);
+                    resultText.setTextColor(Color.RED);
+                    resultText.setText("Drone konnte nicht verbunden werden");
+                    resultText.startAnimation(out);
+                    droneSwitch.setChecked(false);
+                }
+            } else {
+                if (droneCommunicator != null) droneCommunicator.send("land");
+                resultText.setVisibility(TextView.VISIBLE);
+                resultText.setTextColor(Color.RED);
+                resultText.setText("Drone wird gelandet");
+                resultText.startAnimation(out);
+                droneCommunicator.disconnect();
+            }
+        });
+
     }
 
     private static int goValueCorrected(double value) {
@@ -148,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initVariables() {
-        droneCommunicator = new DroneCommunicator("192.168.10.1", 8889, this.getApplicationContext());
         checkButton = findViewById(R.id.checkButton);
         droneButton = findViewById(R.id.droneButton);
         droneButton.setEnabled(false);
@@ -160,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
         inputZ = findViewById(R.id.inputZ);
         ef = new ExerciseFactory(ExerciseType.Addition);
         droneSwitch = findViewById(R.id.droneSwitch);
+        droneSwitch.setChecked(false);
         out.setDuration(5000);
         out.setAnimationListener(new Animation.AnimationListener() {
             @Override
