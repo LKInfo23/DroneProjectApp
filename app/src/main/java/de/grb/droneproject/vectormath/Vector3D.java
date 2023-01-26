@@ -163,7 +163,7 @@ public class Vector3D {
      * @return the Vector in String form.
      */
     public String toString() {
-        return "(" + this.x + ", " + this.y + ", " + this.z + ")";
+        return "(" + (int) (this.x) + ", " + (int) (this.y) + ", " + (int) (this.z) + ")";
     }
 
     /**
@@ -172,7 +172,7 @@ public class Vector3D {
      * @return Vector as a {@link String}
      */
     public String toTextView() {
-        return this.x + "\n" + this.y + "\n" + this.z;
+        return (int) (this.x) + "\n" + (int) (this.y) + "\n" + (int) (this.z);
     }
 
     /**
