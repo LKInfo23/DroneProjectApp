@@ -113,9 +113,20 @@ public class MainActivity extends AppCompatActivity {
 
             } else {
                 // gets input
-                double x = Double.parseDouble("0" + inputX.getText().toString());
-                double y = Double.parseDouble("0" + inputY.getText().toString());
-                double z = Double.parseDouble("0" + inputZ.getText().toString());
+                double[] xyzDoubles = {Double.NaN, Double.NaN, Double.NaN};
+                String[] xyzStrings = {
+                        inputX.getText().toString(),
+                        inputY.getText().toString(),
+                        inputZ.getText().toString()
+                };
+
+                for (int i = 0; i < 3; i++) {
+                    try { xyzDoubles[i] = Double.parseDouble(xyzStrings[i]); }
+                    catch (NumberFormatException ignored) {}
+                }
+
+                double x = xyzDoubles[0], y = xyzDoubles[1], z = xyzDoubles[2];
+
                 resultText.setVisibility(TextView.VISIBLE);
                 // checks if input is correct
                 if (exerciseGen.isSolution(new Vector3D(x, y, z))) {
