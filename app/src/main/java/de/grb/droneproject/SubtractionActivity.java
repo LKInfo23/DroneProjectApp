@@ -10,7 +10,6 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -21,7 +20,7 @@ import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-import de.grb.droneproject.excercises.AdditionExerciseGenerator;
+import de.grb.droneproject.excercises.SubtractionExerciseGenerator;
 import de.grb.droneproject.excercises.ExerciseFactory;
 import de.grb.droneproject.excercises.ExerciseType;
 import de.grb.droneproject.networking.DroneCommunicator;
@@ -30,7 +29,7 @@ import de.grb.droneproject.vectormath.Vector3D;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-public class MainActivity extends AppCompatActivity {
+public class SubtractionActivity extends AppCompatActivity {
 
     private Button checkButton;
     private ToggleButton droneSwitch;
@@ -52,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_subtraction);
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         if (SDK_INT > 8) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
@@ -65,14 +64,14 @@ public class MainActivity extends AppCompatActivity {
         initExercise();
 
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_nav);
-        bottomNavigationView.setSelectedItemId(R.id.plus);
+        bottomNavigationView.setSelectedItemId(R.id.minus);
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.minus:
-                        startActivity(new Intent(MainActivity.this, SubtractionActivity.class));
+                    case R.id.plus:
+                        startActivity(new Intent(SubtractionActivity.this, MainActivity.class));
                         return true;
                 }
                 return false;
@@ -88,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void initExercise() {
-        ExerciseFactory ef = new ExerciseFactory(ExerciseType.Addition);
-        AdditionExerciseGenerator exerciseGen = (AdditionExerciseGenerator) ef.getGenerator();
+        ExerciseFactory ef = new ExerciseFactory(ExerciseType.Subtraction);
+        SubtractionExerciseGenerator exerciseGen = (SubtractionExerciseGenerator) ef.getGenerator();
         exerciseGen.Generate();
         firstVector.setText(exerciseGen.getFirstVector().toTextView());
         secondVector.setText(exerciseGen.getSecondVector().toTextView());
@@ -201,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
         inputX = findViewById(R.id.inputX);
         inputY = findViewById(R.id.inputY);
         inputZ = findViewById(R.id.inputZ);
-        ef = new ExerciseFactory(ExerciseType.Addition);
+        ef = new ExerciseFactory(ExerciseType.Subtraction);
         droneSwitch = findViewById(R.id.droneSwitch);
         droneSwitch.setChecked(false);
         out.setDuration(5000);

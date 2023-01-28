@@ -7,7 +7,7 @@ public class SubtractionExerciseGenerator extends AddSubExercise {
     @Override
     public void Generate() {
         firstVector = new Vector3D(10, 0);
-        secondVector = new Vector3D(0, -10);
+        secondVector = new Vector3D(10, 0);
         solution = firstVector.sub(secondVector);
     }
 
