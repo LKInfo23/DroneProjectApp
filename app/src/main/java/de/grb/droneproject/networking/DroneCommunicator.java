@@ -71,9 +71,8 @@ public class DroneCommunicator {
             DatagramPacket dp = new DatagramPacket(message.getBytes(StandardCharsets.UTF_8), message.length(), InetAddress.getByName(host), port);
             if (droneSocket.isConnected()) {
                 droneSocket.send(dp);
-                System.out.println("sent: " + message);
+                System.out.println("out: " + message);
             }
-
             lastSent = System.currentTimeMillis();
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,7 +110,7 @@ public class DroneCommunicator {
         byte[] buffer = new byte[1024];
         DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
         try {
-            droneSocket.setSoTimeout(250);
+            droneSocket.setSoTimeout(300);
             droneSocket.receive(dp);
             return new String(dp.getData(), 0, dp.getLength(), StandardCharsets.UTF_8);
         } catch (IOException e) {

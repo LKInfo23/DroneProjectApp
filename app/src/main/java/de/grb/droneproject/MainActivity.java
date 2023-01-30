@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("started");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                 if (droneCommunicator.connectToDrone()) {
                     showText("Drone verbunden", Color.GREEN);
                     String takeoff = droneCommunicator.sendAndReceive("takeoff");
-                    if (!takeoff.equals("ok")) {
+                    if (!takeoff.equalsIgnoreCase("ok")) {
                         handleError("Drone konnte nicht gestartet. Überprüfe die Akkuladung.");
                     }
                 } else {
