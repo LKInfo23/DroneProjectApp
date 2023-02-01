@@ -10,7 +10,6 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -27,9 +26,6 @@ import de.grb.droneproject.excercises.ExerciseType;
 import de.grb.droneproject.networking.DroneCommunicator;
 import de.grb.droneproject.vectormath.Vector3D;
 
-import java.net.SocketException;
-import java.net.UnknownHostException;
-
 public class MainActivity extends AppCompatActivity {
 
     private Button checkButton;
@@ -40,12 +36,10 @@ public class MainActivity extends AppCompatActivity {
     private EditText inputX;
     private EditText inputY;
     private EditText inputZ;
-    private ExerciseFactory ef;
-    private Animation out = new AlphaAnimation(1.0f, 0.0f);
+    private final Animation out = new AlphaAnimation(1.0f, 0.0f);
     private Button droneButton;
     private boolean goNext;
     private DroneCommunicator droneCommunicator;
-    private boolean fly = true;
 
 
     @SuppressLint("SetTextI18n")
@@ -68,16 +62,12 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.plus);
 
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.minus:
-                        startActivity(new Intent(MainActivity.this, SubtractionActivity.class));
-                        return true;
-                }
-                return false;
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.minus) {
+                startActivity(new Intent(MainActivity.this, SubtractionActivity.class));
+                return true;
             }
+            return false;
         });
     }
 
@@ -166,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 if (droneCommunicator.connectToDrone()) {
                     showText("Drone verbunden", Color.GREEN);
                     String takeoff = droneCommunicator.sendAndReceive("takeoff");
-                    if (!takeoff.equalsIgnoreCase("ok")) {
+                    if (takeoff.equalsIgnoreCase("error")) {
                         handleError("Drone konnte nicht gestartet. Überprüfe die Akkuladung.");
                     }
                 } else {
@@ -213,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
         inputX = findViewById(R.id.inputX);
         inputY = findViewById(R.id.inputY);
         inputZ = findViewById(R.id.inputZ);
-        ef = new ExerciseFactory(ExerciseType.Addition);
+        ExerciseFactory ef = new ExerciseFactory(ExerciseType.Addition);
         droneSwitch = findViewById(R.id.droneSwitch);
         droneSwitch.setChecked(false);
         out.setDuration(5000);

@@ -26,9 +26,6 @@ import de.grb.droneproject.excercises.ExerciseType;
 import de.grb.droneproject.networking.DroneCommunicator;
 import de.grb.droneproject.vectormath.Vector3D;
 
-import java.net.SocketException;
-import java.net.UnknownHostException;
-
 public class SubtractionActivity extends AppCompatActivity {
 
     private Button checkButton;
@@ -39,12 +36,11 @@ public class SubtractionActivity extends AppCompatActivity {
     private EditText inputX;
     private EditText inputY;
     private EditText inputZ;
-    private ExerciseFactory ef;
-    private Animation out = new AlphaAnimation(1.0f, 0.0f);
+    private final Animation out = new AlphaAnimation(1.0f, 0.0f);
     private Button droneButton;
     private boolean goNext;
     private DroneCommunicator droneCommunicator;
-    private boolean fly = true;
+    private final boolean fly = true;
 
 
     @SuppressLint("SetTextI18n")
@@ -66,16 +62,12 @@ public class SubtractionActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.minus);
 
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.plus:
-                        startActivity(new Intent(SubtractionActivity.this, MainActivity.class));
-                        return true;
-                }
-                return false;
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.plus) {
+                startActivity(new Intent(SubtractionActivity.this, MainActivity.class));
+                return true;
             }
+            return false;
         });
     }
 
@@ -211,7 +203,7 @@ public class SubtractionActivity extends AppCompatActivity {
         inputX = findViewById(R.id.inputX);
         inputY = findViewById(R.id.inputY);
         inputZ = findViewById(R.id.inputZ);
-        ef = new ExerciseFactory(ExerciseType.Subtraction);
+        ExerciseFactory ef = new ExerciseFactory(ExerciseType.Subtraction);
         droneSwitch = findViewById(R.id.droneSwitch);
         droneSwitch.setChecked(false);
         out.setDuration(5000);

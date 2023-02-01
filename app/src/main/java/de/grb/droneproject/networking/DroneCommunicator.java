@@ -12,9 +12,6 @@ public class DroneCommunicator {
     private final String host;
     private final int port;
     private DatagramSocket droneSocket;
-    private long lastSent = System.currentTimeMillis();
-
-    private boolean connected = false;
 
     private Context appContext;
 
@@ -43,6 +40,7 @@ public class DroneCommunicator {
     }
 
     public boolean connectToDrone() {
+        boolean connected = false;
         try {
             if (droneSocket == null) {
                 droneSocket = new DatagramSocket(8890);
@@ -55,7 +53,7 @@ public class DroneCommunicator {
             connected = false;
             e.printStackTrace();
         }
-        if (connected) return sendAndReceive("command").equalsIgnoreCase("ok");
+        if (connected) return !sendAndReceive("command").equalsIgnoreCase("error");
         return false;
     }
 
@@ -73,7 +71,7 @@ public class DroneCommunicator {
                 droneSocket.send(dp);
                 System.out.println("out: " + message);
             }
-            lastSent = System.currentTimeMillis();
+            long lastSent = System.currentTimeMillis();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -130,14 +128,6 @@ public class DroneCommunicator {
     public boolean isConnected() {
         if (droneSocket == null) return false;
         return droneSocket.isConnected();
-    }
-
-    private String getCurrentSSID() {
-        WifiManager wifiManager = (WifiManager) appContext.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (wifiManager != null) {
-            return wifiManager.getConnectionInfo().getSSID();
-        }
-        return null;
     }
 
 }
