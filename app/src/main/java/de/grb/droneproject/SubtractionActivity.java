@@ -89,7 +89,7 @@ public class SubtractionActivity extends AppCompatActivity {
         // listener
         checkButton.setOnClickListener(v -> {
 
-            // goNext = true means that the next excercise will be generated
+            // goNext = true means that the next exercise will be generated
             if (goNext) {
                 // generate new exercise
                 exerciseGen.Generate();
