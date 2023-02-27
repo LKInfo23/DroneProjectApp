@@ -4,8 +4,15 @@ import java.util.Random;
 
 import de.grb.droneproject.vectormath.Vector3D;
 
+/**
+ * This class generates addition exercises.
+ */
 public class AdditionExerciseGenerator extends AddSubExercise {
 
+    /**
+     * Generates the vectors for the addition exercise. First it generates two random vectors and then clamps the z value
+     * before using the resulting vectors to generate the solution vector
+     */
     @Override
     public void Generate() {
         firstVector = new Vector3D(10, 0);
@@ -27,6 +34,7 @@ public class AdditionExerciseGenerator extends AddSubExercise {
         solution = firstVector.add(secondVector);
     }
 
+
     @Override
     public String AsStringExercise() {
         return "Die Drone befindet sich am Punkt: " + firstVector + "\nUnd fliegt den Vektor: " + secondVector +
@@ -38,6 +46,7 @@ public class AdditionExerciseGenerator extends AddSubExercise {
         return "Die Drone befindet sich am Punkt: " + firstVector + "\nUnd fliegt den Vektor: " + secondVector +
                 "\nGeben sie den Punkt an an dem die Drone sich jetzt befindet.\n" + solution + "\n";
     }
+
 
     public String toString() {
         return firstVector.toString() + " + " + secondVector.toString() + " = " + solution.toString() ;

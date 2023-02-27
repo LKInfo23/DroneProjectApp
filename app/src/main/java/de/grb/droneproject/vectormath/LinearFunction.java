@@ -1,21 +1,21 @@
+//CURRENTLY NOT IN USE
 package de.grb.droneproject.vectormath;
 
 import java.util.Random;
 
-
+/**
+ * This is a class to represent a line in 3d using 2 vectors
+ */
 public class LinearFunction {
-    Vector3D StartingPoint;
-    Vector3D Direction;
+    Vector3D startingPoint;
+    Vector3D direction;
 
     /**
-     * This is a class to represent a Linear function in 3d using 2 vectors. One vector to point to one
-     * point on the line and one vector to give the direction.
-     * the StartingPoint and the direction are of the Vector3D type
-     * (if created with any parameters it will be initialized with zero elements
+     * Constructor to construct a line with no given parameters it will create a random line
      */
     public LinearFunction() {
-        this.StartingPoint = new Vector3D();
-        this.Direction = new Vector3D();
+        this.startingPoint = new Vector3D();
+        this.direction = new Vector3D();
     }
 
     /**
@@ -24,37 +24,45 @@ public class LinearFunction {
      * @param Direction the direction
      */
     public LinearFunction(Vector3D StartingPoint, Vector3D Direction) {
-        this.StartingPoint = StartingPoint;
-        this.Direction = Direction;
+        this.startingPoint = StartingPoint;
+        this.direction = Direction;
     }
 
     /**
-     * Method to see if two Linear functions are Parallel (doesn't check for Identical functions)
+     * Function to see if two Linear functions are Parallel (doesn't check for Identical functions)
      * @param f a linear function
      * @return if they are parallel
      */
     public boolean isParallel(LinearFunction f) {
-        return (f.Direction.isCollinear(this.Direction));
+        return (f.direction.isCollinear(this.direction));
     }
 
     /**
-     * Method to see if two linear functions are Identical
+     * Function to see if two linear functions are Identical
      * @param f a linear function
      * @return if they are Identical
      */
     public boolean isIdentical(LinearFunction f) {
-        return (this.isParallel(f) && this.StartingPoint.sub(f.StartingPoint).isCollinear(this.Direction));
+        return (this.isParallel(f) && this.startingPoint.sub(f.startingPoint).isCollinear(this.direction));
         //checks to see if the Lines are parallel and then checks
         //if the Vector between the Starting points is collinear to the direction vectors
     }
 
+    /**
+     * Function to set a new starting point of the line.
+     * The new starting point will be randomly selected by multiples of the direction vector
+     */
     public void ReconfigureStartingPoint() {
         Random random = new Random();
-        StartingPoint.add(Direction.scalarMultiplication(random.nextInt(10) - 5));
+        startingPoint.add(direction.scalarMultiplication(random.nextInt(10) - 5));
     }
 
+    /**
+     * Function to return the linear funciton as a String
+     * @return the linear funciton in String for
+     */
     public String toString() {
-        return "x = " + StartingPoint.toString() + " + r * " + Direction.toString();
+        return "x = " + startingPoint.toString() + " + r * " + direction.toString();
     }
 
     /**
@@ -102,32 +110,46 @@ public class LinearFunction {
         * v = this.Direction.x * SubFThis.y - this.Direction.y * SubFThis.x
         *
         */
-        Vector3D negFDirection = f.Direction.scalarMultiplication(-1); // the direction of but negative
-        double RSub = this.Direction.x * negFDirection.y - this.Direction.y * negFDirection.x;
+        Vector3D negFDirection = f.direction.scalarMultiplication(-1); // the direction of but negative
+        double RSub = this.direction.x * negFDirection.y - this.direction.y * negFDirection.x;
         if(RSub == 0) { //if the 2x2 doesn't have a solution
             return new LinearFunctionSolution(LinearFunctionRelation.SKEWED);
         }
-        Vector3D SubFThis = f.StartingPoint.sub(this.StartingPoint);
+        Vector3D SubFThis = f.startingPoint.sub(this.startingPoint);
         double r = SubFThis.x * negFDirection.y - SubFThis.y * negFDirection.x;
-        double v = this.Direction.x * SubFThis.y - this.Direction.y * SubFThis.x;
+        double v = this.direction.x * SubFThis.y - this.direction.y * SubFThis.x;
         //4. check the final equation:
         //this.Direction.z * r + negFDirection.z * v = SubFThis.z
-        if(this.Direction.z * r + negFDirection.z * v != SubFThis.z) {
+        if(this.direction.z * r + negFDirection.z * v != SubFThis.z) {
             return new LinearFunctionSolution(LinearFunctionRelation.SKEWED);
         }
-        Vector3D Intersection = this.StartingPoint.add(this.Direction.scalarMultiplication(r));
+        Vector3D Intersection = this.startingPoint.add(this.direction.scalarMultiplication(r));
         return new LinearFunctionSolution(LinearFunctionRelation.INTERSECT, Intersection);
     }
 
+    /**
+     * Function to get the point that is x times the direction vector away from the starting point
+     * @param x the factor used on the direction vector
+     * @return the point that is x times the direction vector away from the starting point
+     */
     public Vector3D pointAt(int x) {
-        return new Vector3D(this.StartingPoint.add(this.Direction.scalarMultiplication(x)));
+        return new Vector3D(this.startingPoint.add(this.direction.scalarMultiplication(x)));
     }
 
+    /**
+     * Funciton to get the value of direction
+     * @return direction
+     */
     public Vector3D getDirection() {
-        return Direction;
+        return direction;
     }
 
+    /**
+     * Function to return the linear function in String form but without the direction vector. This is usefull when the
+     * direction vector is the solution of an exercise
+     * @return the linear funciton in String form without the dirction vector
+     */
     public String withoutDirection() {
-        return "x = " + StartingPoint.toString() + " + r * (";
+        return "x = " + startingPoint.toString() + " + r * (";
     }
 }
