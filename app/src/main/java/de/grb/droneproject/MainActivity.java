@@ -126,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
                     droneButton.setEnabled(droneSwitch.isChecked());
                     checkButton.setText("Next");
                 } else {
+                    if(x == 1 && y == 8 && z == 7){
+                        startActivity(new Intent(MainActivity.this, DebugActivity.class));
+                    }
                     resultText.setTextColor(Color.RED);
                     resultText.setText("Falsch, " + exerciseGen.getSolution().toString() + " wäre richtig gewesen");
                 }
@@ -152,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
 
         droneSwitch.setOnClickListener(v -> {
             if (droneSwitch.isChecked()) {
-                droneCommunicator = new DroneCommunicator("192.168.10.1", 8889, this.getApplicationContext());
+                droneCommunicator = Keeper.getDroneCommunicator();
                 if (droneCommunicator.connectToDrone()) {
                     showText("Drone verbunden", Color.GREEN);
                     String takeoff = droneCommunicator.sendAndReceive("takeoff");

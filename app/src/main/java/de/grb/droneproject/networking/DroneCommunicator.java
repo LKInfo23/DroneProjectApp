@@ -2,6 +2,8 @@ package de.grb.droneproject.networking;
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
+import de.grb.droneproject.Keeper;
+import de.grb.droneproject.util.Logger;
 
 import java.io.IOException;
 import java.net.*;
@@ -14,6 +16,9 @@ public class DroneCommunicator {
     private DatagramSocket droneSocket;
 
     private Context appContext;
+
+    private Logger logger = Keeper.getLogger();
+
 
     /**
      * This class represents the connection to the drone. It may be used to send and receive data from and to the drone.
@@ -69,7 +74,8 @@ public class DroneCommunicator {
             DatagramPacket dp = new DatagramPacket(message.getBytes(StandardCharsets.UTF_8), message.length(), InetAddress.getByName(host), port);
             if (droneSocket.isConnected()) {
                 droneSocket.send(dp);
-                System.out.println("out: " + message);
+                System.out.println("out: "+message);
+                logger.append("out: " + message);
             }
             long lastSent = System.currentTimeMillis();
         } catch (IOException e) {
@@ -95,6 +101,7 @@ public class DroneCommunicator {
         send(message);
         String receive = receive();
         System.out.println("in: "+receive);
+        logger.append("in: " + receive);
         return receive;
     }
 
