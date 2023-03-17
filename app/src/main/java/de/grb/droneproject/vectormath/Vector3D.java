@@ -2,16 +2,26 @@ package de.grb.droneproject.vectormath;
 
 import java.util.Random;
 
+/**
+ * Class representing a three-dimensional vector, which is used to control the Drone's movement.
+ * The vector's components (x,y,z) are all the type double.
+ */
 public class Vector3D {
-
+    /**
+     * the x coordinate of the vector
+     */
     double x;
+    /**
+     * the y coordinate of the vector
+     */
     double y;
+    /**
+     * the z coordinate of the vector
+     */
     double z;
 
     /**
-     * Class representing a three-dimensional vector, which is used to control the Drone's movement.
-     * The vector's components (x,y,z) are all the type double.
-     * (If created without any constructor-parameters, all three components of the vector will be initialized as 0.)
+     * Constructor to construct the class without any parameters. All three components of the vector will be initialized as 0
      */
     public Vector3D() {
         this.x = 0;
@@ -34,12 +44,10 @@ public class Vector3D {
 
 
     /**
-     * Class representing a three-dimensional vector, which is used to control the Drone's movement.
-     * The vector's components (x,y,z) are all the type double.
-     *
-     * @param x the x-component of the vector
-     * @param y the y-component of the vector
-     * @param z the z-component of the vector
+     * Constructor to the construct a vector given the x, y, and z values.
+     * @param x the x-component of the vector.
+     * @param y the y-component of the vector.
+     * @param z the z-component of the vector.
      */
     public Vector3D(double x, double y, double z) {
         this.x = x;
@@ -48,10 +56,7 @@ public class Vector3D {
     }
 
     /**
-     * Class representing a three-dimensional vector, which is used to control the Drone's movement.
-     * The vector's components (x,y,z) are all the type double.
-     * (If a vector created with another vector as a constructor-parameter, the vector will be a copied.)
-     *
+     * Constructor to construct a copied vector.
      * @param v The vector to be copied.
      */
     public Vector3D(Vector3D v) {
@@ -61,9 +66,9 @@ public class Vector3D {
     }
 
     /**
-     * Method returning the magnitude (length) of the given vector.
+     * Function returning the magnitude sqrt(x^2+y^2+z^2) of this vector.
      *
-     * @return The magnitude of the vector. The magnitude is equal to sqrt(x²+y²+z²).
+     * @return The magnitude of this vector
      */
     public double magnitude() {
         return Math.sqrt(
@@ -74,7 +79,7 @@ public class Vector3D {
     }
 
     /**
-     * Method for adding a vector to another vector.
+     * Function for adding a vector to this vector.
      *
      * @param v The vector to be added.
      * @return The resulting vector.
@@ -89,7 +94,7 @@ public class Vector3D {
     }
 
     /**
-     * Method for subtracting a vector from another vector.
+     * Function for subtracting a vector from this vector.
      *
      * @param v The vector to be subtracted.
      * @return The resulting vector.
@@ -104,7 +109,7 @@ public class Vector3D {
     }
 
     /**
-     * Method to calculate the cross product of two vectors.
+     * Funciton to calculate the cross product of this vector with a given vector.
      *
      * @param v The vector to calculate the cross product with.
      * @return The resulting vector.
@@ -117,7 +122,7 @@ public class Vector3D {
     }
 
     /**
-     * Method to calculate the dot product of two vectors.
+     * Function to calculate the dot product of this vector and a given vector.
      *
      * @param v The vector to calculate the dot product with.
      * @return The resulting product.
@@ -131,9 +136,8 @@ public class Vector3D {
     }
 
     /**
-     * Method to normalize a vector. This means to maintain the direction of the vector while scaling it, so its
-     * length equates to 1, making it a unit vector.
-     *
+     * Function to normalize this vector. Normalizing means diving the vector by length of the vector to create a unit
+     * vector, a vector of lenght 1 and keeping the original direction.
      * @return The resulting normalized vector.
      */
     public Vector3D normalize() {
@@ -145,9 +149,9 @@ public class Vector3D {
     }
 
     /**
-     * Method to multiply a vector with a scalar.
+     * Function to multiply this vector with a given scalar.
      *
-     * @param scalar the scalar to multiply the vector with.
+     * @param scalar the scalar to multiply this vector with.
      * @return The scaled vector.
      */
     public Vector3D scalarMultiplication(double scalar) {
@@ -158,7 +162,7 @@ public class Vector3D {
     }
 
     /**
-     * Method to make a Vector into a String.
+     * Function to return the vector in String form
      *
      * @return the Vector in String form.
      */
@@ -167,7 +171,7 @@ public class Vector3D {
     }
 
     /**
-     * Method to convert the Vector into a String displayable in a TextView.
+     * Function to return the Vector as a String displayable in a TextView.
      *
      * @return Vector as a {@link String}
      */
@@ -176,10 +180,10 @@ public class Vector3D {
     }
 
     /**
-     * Method to find if two vectors are collinear
+     * Function to check if two vectors are collinear.
      *
      * @param v the vector where the collinearity needs to be found with
-     * @return if the vectors are collinear
+     * @return a boolean that is TRUE if the vectors are collinear and FALSE if not
      */
     public boolean isCollinear(Vector3D v) {
         Vector3D Zero = new Vector3D();
@@ -188,7 +192,7 @@ public class Vector3D {
     }
 
     /**
-     * Method to return a normalized vector that is orthogonal on the XY-Axis
+     * Function to return a normalized vector that is orthogonal on the XY-Axis
      *
      * @return normalized orthogonal Vector
      */
@@ -196,26 +200,50 @@ public class Vector3D {
         return new Vector3D(1, -this.x / this.y, 0).normalize();
     }
 
+    /**
+     * Function to get the x value of this vector
+     * @return the x value of this vector
+     */
     public double getX() {
         return x;
     }
 
+    /**
+     * Function to set the x value of this vector
+     * @param x the x value of this vector
+     */
     public void setX(double x) {
         this.x = x;
     }
 
+    /**
+     * Function to get the y value of this vector
+     * @return the y value of this vector
+     */
     public double getY() {
         return y;
     }
 
+    /**
+     * Function to set the y value of this vector
+     * @param y the y value of this vector
+     */
     public void setY(double y) {
         this.y = y;
     }
 
+    /**
+     * Function to get the z value of this vector
+     * @return the z value of this vector
+     */
     public double getZ() {
         return z;
     }
 
+    /**
+     * Function to set the z value of this vector
+     * @param z the z value of this vector
+     */
     public void setZ(double z) {
         this.z = z;
     }
