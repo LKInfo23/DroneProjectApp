@@ -165,16 +165,18 @@
             tools:visibility="invisible" />
 
     <ToggleButton
-            android:id="@+id/droneSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="drone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.489"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.705" />
+        android:id="@+id/droneSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="drone"
+        android:textOff="START"
+        android:textOn="LAND"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/checkButton"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.638" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
@@ -187,4 +189,17 @@
         app:layout_constraintTop_toBottomOf="@+id/droneSwitch"
         app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/bottom_nav" />
+
+    <TextView
+        android:id="@+id/droneSwitchLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DRONE CONTROL:"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/droneButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.637" />
 </androidx.constraintlayout.widget.ConstraintLayout>
