@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 resultText.setVisibility(TextView.VISIBLE);
                 // checks if input is correct
                 if (exerciseGen.isSolution(new Vector3D(x, y, z))) {
-                    resultText.setTextColor(Color.rgb(0, 255, 0));
+                    resultText.setTextColor(Color.rgb(45, 183, 112));
                     resultText.setText("Richtig");
                     droneButton.setEnabled(droneSwitch.isChecked());
                     checkButton.setText("Next");
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                     if(x == 1 && y == 8 && z == 7){
                         startActivity(new Intent(MainActivity.this, DebugActivity.class));
                     }
-                    resultText.setTextColor(Color.RED);
+                    resultText.setTextColor(Color.rgb(175, 35, 35));
                     resultText.setText("Falsch, " + exerciseGen.getSolution().toString() + " wäre richtig gewesen");
                 }
                 goNext = true;
@@ -149,15 +149,15 @@ public class MainActivity extends AppCompatActivity {
 
         droneButton.setOnClickListener(v -> {
             if (!goNext) {
-                showText("Du musst erst die Aufgabe lösen oder die drone ist nicht verbunden", Color.GREEN);
+                showText("Du musst erst die Aufgabe lösen oder die drone ist nicht verbunden", Color.rgb(45, 183, 112));
             }
             if (goNext) {
                 if (droneCommunicator.isConnected()) {
-                    showText("Drone fliegt zum Ziel", Color.GREEN);
+                    showText("Drone fliegt zum Ziel", Color.rgb(45, 183, 112));
                     droneCommunicator.send(generateGoToCommand(exerciseGen.getSolution()));
                     droneButton.setEnabled(false);
                 } else {
-                    showText("Drone ist nicht verbunden", Color.RED);
+                    showText("Drone ist nicht verbunden", Color.rgb(175, 35, 35));
                     droneCommunicator.connectToDrone();
                 }
             }
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
             if (droneSwitch.isChecked()) {
                 droneCommunicator = Keeper.getDroneCommunicator();
                 if (droneCommunicator.connectToDrone()) {
-                    showText("Drone verbunden", Color.GREEN);
+                    showText("Drone verbunden", Color.rgb(45, 183, 112));
                     String takeoff = droneCommunicator.sendAndReceive("takeoff");
                     if (takeoff.equalsIgnoreCase("error")) {
                         handleError("Drone konnte nicht gestartet. Überprüfe die Akkuladung.");
@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleError(String text) {
-        showText(text, Color.RED);
+        showText(text, Color.rgb(175, 35, 35));
         droneSwitch.setChecked(false);
         droneCommunicator.disconnect();
     }

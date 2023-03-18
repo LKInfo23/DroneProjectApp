@@ -8,166 +8,139 @@
                                                    tools:layout_editor_absoluteX="0dp"
                                                    tools:layout_editor_absoluteY="-42dp">
 
-    <TextView
-            android:id="@+id/firstVector"
-            android:layout_width="82dp"
-            android:layout_height="180dp"
-            android:lineSpacingExtra="14sp"
-            android:text="1\n1\n1"
-            android:textAlignment="center"
-            android:textSize="38sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.151"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.116" />
+    <EditText
+        android:id="@+id/inputX"
+        android:layout_width="82dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:background="@drawable/rounded_corners"
+        android:ems="10"
+        android:hint="X"
+        android:inputType="numberSigned"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/secondVector"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.17" />
 
-    <TextView
-            android:id="@+id/secondVector"
-            android:layout_width="82dp"
-            android:layout_height="180dp"
-            android:lineSpacingExtra="14sp"
-            android:text="1\n1\n1"
-            android:textAlignment="center"
-            android:textSize="38sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.116" />
-
-    <Button
-            android:id="@+id/checkButton"
-            android:layout_width="146dp"
-            android:layout_height="68dp"
-            android:text="Check Result"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.807"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.517" />
-
-    <Button
-            android:id="@+id/droneButton"
-            android:layout_width="146dp"
-            android:layout_height="68dp"
-            android:text="Send to Drone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.188"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.517" />
+    <EditText
+        android:id="@+id/inputY"
+        android:layout_width="82dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:background="@drawable/rounded_corners"
+        android:ems="10"
+        android:hint="Y"
+        android:inputType="numberSigned"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/secondVector"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.243" />
 
     <ImageView
-            android:id="@+id/plusSign"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:foregroundTintMode="add"
-            app:layout_constraintBottom_toBottomOf="@+id/firstVector"
-            app:layout_constraintEnd_toStartOf="@+id/secondVector"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/firstVector"
-            app:layout_constraintTop_toTopOf="@+id/secondVector"
-            app:layout_constraintVertical_bias="0.467"
-            app:srcCompat="@drawable/ic_baseline_add_24" />
-
-    <EditText
-            android:id="@+id/inputX"
-            android:layout_width="82dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="32dp"
-            android:ems="10"
-            android:hint="X"
-            android:inputType="numberDecimal"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textSize="38sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/secondVector"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.095" />
-
-    <EditText
-            android:id="@+id/inputY"
-            android:layout_width="82dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="32dp"
-            android:ems="10"
-            android:hint="Y"
-            android:inputType="numberDecimal"
-            android:textAlignment="center"
-            android:textSize="38sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/secondVector"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.184" />
-
-    <EditText
-            android:id="@+id/inputZ"
-            android:layout_width="82dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="32dp"
-            android:ems="10"
-            android:hint='Z'
-            android:inputType="numberDecimal"
-            android:textAlignment="center"
-            android:textSize="38sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/secondVector"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.274" />
-
-    <ImageView
-            android:id="@+id/equalsSign"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:rotation="90"
-            app:layout_constraintBottom_toBottomOf="@+id/secondVector"
-            app:layout_constraintEnd_toStartOf="@+id/inputY"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/secondVector"
-            app:layout_constraintTop_toTopOf="@+id/inputX"
-            app:layout_constraintVertical_bias="0.467"
-            app:srcCompat="@drawable/ic_baseline_pause_24" />
+        android:id="@+id/equalsSign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:rotation="90"
+        app:layout_constraintBottom_toBottomOf="@+id/secondVector"
+        app:layout_constraintEnd_toStartOf="@+id/inputY"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/secondVector"
+        app:layout_constraintTop_toTopOf="@+id/secondVector"
+        app:layout_constraintVertical_bias="0.48000002"
+        app:srcCompat="@drawable/ic_baseline_pause_24" />
 
     <TextView
-            android:id="@+id/resultText"
-            android:layout_width="224dp"
-            android:layout_height="83dp"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/checkButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/secondVector"
-            app:layout_constraintVertical_bias="0.533"
-            tools:visibility="invisible" />
+        android:id="@+id/firstVector"
+        android:layout_width="82dp"
+        android:layout_height="120dp"
+        android:lineSpacingExtra="14sp"
+        android:text="1\n1\n1"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.151"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.214" />
+
+    <ImageView
+        android:id="@+id/plusSign"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:foregroundTintMode="add"
+        app:layout_constraintBottom_toBottomOf="@+id/firstVector"
+        app:layout_constraintEnd_toStartOf="@+id/secondVector"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/firstVector"
+        app:layout_constraintTop_toTopOf="@+id/firstVector"
+        app:layout_constraintVertical_bias="0.468"
+        app:srcCompat="@drawable/ic_baseline_add_24" />
+
+    <Button
+        android:id="@+id/checkButton"
+        android:layout_width="146dp"
+        android:layout_height="68dp"
+        android:text="Check Result"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.807"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499" />
+
+    <TextView
+        android:id="@+id/resultText"
+        android:layout_width="224dp"
+        android:layout_height="65dp"
+        android:background="@drawable/rounded_corners"
+        android:elegantTextHeight="true"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/checkButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/secondVector"
+        app:layout_constraintVertical_bias="1.0"
+        tools:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/droneSwitchLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DRONE CONTROL:"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/droneButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.629" />
 
     <ToggleButton
         android:id="@+id/droneSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="#777"
         android:text="drone"
         android:textOff="START"
         android:textOn="LAND"
@@ -176,7 +149,54 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.638" />
+        app:layout_constraintVertical_bias="0.629" />
+
+    <Button
+        android:id="@+id/droneButton"
+        android:layout_width="146dp"
+        android:layout_height="68dp"
+        android:text="Send to Drone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.188"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499" />
+
+    <TextView
+        android:id="@+id/secondVector"
+        android:layout_width="82dp"
+        android:layout_height="120dp"
+        android:lineSpacingExtra="14sp"
+        android:text="1\n1\n1"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.214" />
+
+    <EditText
+        android:id="@+id/inputZ"
+        android:layout_width="82dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:background="@drawable/rounded_corners"
+        android:ems="10"
+        android:hint='Z'
+        android:inputType="numberSigned"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/secondVector"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.317" />
 
     <!--
     The following navigation bar currently not in use, as at the time of the initial release,
@@ -199,16 +219,15 @@
 
     -->
 
-    <TextView
-        android:id="@+id/droneSwitchLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="DRONE CONTROL:"
-        android:textSize="16sp"
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/droneButton"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.637" />
+        app:layout_constraintVertical_bias="0.025"
+        app:srcCompat="@drawable/grb_icon" />
 </androidx.constraintlayout.widget.ConstraintLayout>
