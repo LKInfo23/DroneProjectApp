@@ -46,6 +46,7 @@ public class SubtractionActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subtraction);
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
