@@ -59,6 +59,13 @@ public class MainActivity extends AppCompatActivity {
         initVariables();
         initExercise();
 
+        /*
+        The following navigation bar currently not in use, as at the time of the initial release,
+        there is only addition exercises.
+        */
+
+        /*
+
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.plus);
 
@@ -69,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
+
+        */
     }
 
     @Override

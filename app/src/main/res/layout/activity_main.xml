@@ -178,6 +178,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.638" />
 
+    <!--
+    The following navigation bar currently not in use, as at the time of the initial release,
+    there is only addition exercises.
+    -->
+
+    <!--
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
         style="@style/Theme.DroneProjectApp"
@@ -189,6 +196,8 @@
         app:layout_constraintTop_toBottomOf="@+id/droneSwitch"
         app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/bottom_nav" />
+
+    -->
 
     <TextView
         android:id="@+id/droneSwitchLabel"
