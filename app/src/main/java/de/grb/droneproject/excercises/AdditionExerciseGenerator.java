@@ -15,8 +15,8 @@ public class AdditionExerciseGenerator extends AddSubExercise {
      */
     @Override
     public void Generate() {
-        firstVector = new Vector3D(10, 0);
-        secondVector = new Vector3D(10, 0);
+        firstVector = new Vector3D(6, -5);
+        secondVector = new Vector3D(6, -5);
         Random random = new Random();
 
         // result vectors z HAS TO BE between 0 and 2 (prevent flying into ground or too high)

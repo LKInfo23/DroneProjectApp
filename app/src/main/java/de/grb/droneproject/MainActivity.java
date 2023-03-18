@@ -195,14 +195,8 @@ public class MainActivity extends AppCompatActivity {
         resultText.startAnimation(out);
     }
 
-    private static int goValueCorrected(double value) {
-        // for x = 0: 0
-        // otherwise: 10 * x * ln(x) / 4 + 5
-        return value == 0 ? 0 : (int) (10 * value * Math.log(value) / 4 + 5);
-    }
-
     private String generateGoToCommand(Vector3D v) {
-        return "go " + goValueCorrected(v.getX()) + " " + goValueCorrected(v.getY()) + " " + goValueCorrected(v.getZ()) + " 10";
+        return "go " + v.getX() * 100 + " " + v.getY() * 100 + " " + v.getZ() * 100 + " 10";
     }
 
     private void initVariables() {
