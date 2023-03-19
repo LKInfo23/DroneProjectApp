@@ -4,7 +4,9 @@ import java.util.Random;
 
 /**
  * Class representing a three-dimensional vector, which is used to control the Drone's movement.
- * The vector's components (x,y,z) are all the type double.
+ *
+ * @author M. Hagen
+ * @author L. Janke
  */
 public class Vector3D {
     /**
@@ -56,7 +58,7 @@ public class Vector3D {
     }
 
     /**
-     * Constructor to construct a copied vector.
+     * Constructor copy a vector.
      * @param v The vector to be copied.
      */
     public Vector3D(Vector3D v) {
@@ -66,9 +68,8 @@ public class Vector3D {
     }
 
     /**
-     * Function returning the magnitude sqrt(x^2+y^2+z^2) of this vector.
-     *
-     * @return The magnitude of this vector
+     * Function returning the magnitude \sqrt{x^2+y^2+z^2} of this vector.
+     * @return the magnitude of this vector
      */
     public double magnitude() {
         return Math.sqrt(
@@ -109,7 +110,7 @@ public class Vector3D {
     }
 
     /**
-     * Funciton to calculate the cross product of this vector with a given vector.
+     * Function to calculate the cross product of this vector with a given vector.
      *
      * @param v The vector to calculate the cross product with.
      * @return The resulting vector.
@@ -137,7 +138,7 @@ public class Vector3D {
 
     /**
      * Function to normalize this vector. Normalizing means diving the vector by length of the vector to create a unit
-     * vector, a vector of lenght 1 and keeping the original direction.
+     * vector, a vector of length 1 and keeping the original direction.
      * @return The resulting normalized vector.
      */
     public Vector3D normalize() {
@@ -183,7 +184,7 @@ public class Vector3D {
      * Function to check if two vectors are collinear.
      *
      * @param v the vector where the collinearity needs to be found with
-     * @return a boolean that is TRUE if the vectors are collinear and FALSE if not
+     * @return a boolean that is <b>TRUE</b> if the vectors are collinear and <b>FALSE</b> if not
      */
     public boolean isCollinear(Vector3D v) {
         Vector3D Zero = new Vector3D();
@@ -192,9 +193,9 @@ public class Vector3D {
     }
 
     /**
-     * Function to return a normalized vector that is orthogonal on the XY-Axis
+     * Function to return a normalized vector that is orthogonal on the XY-Axis (z = 0).
      *
-     * @return normalized orthogonal Vector
+     * @return the normalized orthogonal Vector
      */
     public Vector3D OrthogonalXY() {
         return new Vector3D(1, -this.x / this.y, 0).normalize();

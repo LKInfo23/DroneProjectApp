@@ -5,6 +5,11 @@ import java.util.Random;
 
 import de.grb.droneproject.vectormath.Vector3D;
 
+/**
+ * class to generate the subtraction exercises.
+ * @author L. Janke
+ * @author M. Hagen
+ */
 public class SubtractionExerciseGenerator extends AddSubExercise {
 
     /**

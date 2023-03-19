@@ -1,23 +1,25 @@
 package de.grb.droneproject.excercises;
 
 /**
- * The differrent types of exercises
+ * The different types of exercises
+ *
+ * @author L. Janke
  */
 public enum ExerciseType {
     /**
-     * Addition exercise
+     * addition exercise
      */
     Addition,
     /**
-     * Subtraction exercise
+     * subtraction exercise
      */
     Subtraction,
     /**
-     * Exercise for orthogonality
+     * exercise for orthogonality
      */
     Orthogonal,
     /**
-     * Parkour exercise
+     * parkour exercise
      */
     Parkour
 }

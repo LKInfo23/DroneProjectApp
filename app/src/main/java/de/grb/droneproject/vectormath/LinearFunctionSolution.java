@@ -6,6 +6,7 @@ import de.grb.droneproject.vectormath.Vector3D;
 /**
  * This is a class representing the solution to the problem of the relation of two
  * Linear Functions.
+ * @author L. Janke
  */
 public class LinearFunctionSolution {
     /**
@@ -19,18 +20,20 @@ public class LinearFunctionSolution {
 
     /**
      * Constructor to construct a solution with a point
+     * @param solution the relation of the two functions
+     * @param point the point of the solution
      */
-    public LinearFunctionSolution(LinearFunctionRelation Solution, Vector3D Point) {
-        this.solution = Solution;
-        this.point = Point;
+    public LinearFunctionSolution(LinearFunctionRelation solution, Vector3D point) {
+        this.solution = solution;
+        this.point = point;
     }
 
     /**
      * Constructor to Construct a Solution without a point
-     * @param Solution
+     * @param solution the relation of the two functions
      */
-    public LinearFunctionSolution(LinearFunctionRelation Solution) {
-        this.solution = Solution;
+    public LinearFunctionSolution(LinearFunctionRelation solution) {
+        this.solution = solution;
         this.point = new Vector3D();
     }
 }

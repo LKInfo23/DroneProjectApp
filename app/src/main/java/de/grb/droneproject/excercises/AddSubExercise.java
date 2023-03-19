@@ -6,6 +6,7 @@ import de.grb.droneproject.vectormath.Vector3D;
  * Class that provides the concrete structure of addition and subtraction exercises.
  *
  * The Exercises both use three vectors, two that will be added/subtracted and the resulting vector.
+ * @author L. Janke
  */
 public abstract class AddSubExercise extends Exercise {
     /**
@@ -31,7 +32,7 @@ public abstract class AddSubExercise extends Exercise {
 
     /**
      * Function to set the value of firstVector
-     * @param firstVector
+     * @param firstVector the first vector
      */
     public void setFirstVector(Vector3D firstVector) {
         this.firstVector = firstVector;
@@ -47,14 +48,14 @@ public abstract class AddSubExercise extends Exercise {
 
     /**
      * Function to set the value of secondVector
-     * @param secondVector
+     * @param secondVector the second vector
      */
     public void setSecondVector(Vector3D secondVector) {
         this.secondVector = secondVector;
     }
 
     /**
-     * Function to get solution
+     * Function to get the solution vector to the exercise
      * @return solution
      */
     public Vector3D getSolution() {

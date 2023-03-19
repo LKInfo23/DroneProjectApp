@@ -4,11 +4,12 @@ package de.grb.droneproject.excercises;
 /**
  * This class uses a <a href="https://www.tutorialspoint.com/design_pattern/factory_pattern.htm">factory</a>
  * to provide the infrastructure to generate concrete exercises of a specific type
+ * @author L. Janke
  */
 public class ExerciseFactory {
 
     /**
-     * The type of this exercise factory
+     * the type of this exercise factory
      */
     private ExerciseType type;
 

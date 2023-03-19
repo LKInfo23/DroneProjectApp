@@ -5,8 +5,9 @@ package de.grb.droneproject.excercises;
  * Abstract class that provides a common interface for exercises
  *
  * This generation follows a <a href="https://www.tutorialspoint.com/design_pattern/factory_pattern.htm">factory Design
- * Pattern</a> using an abstract class as the base. The execercise is then further divided down into different types
+ * Pattern</a> using an abstract class as the base. The exercise is then further divided down into different types
  * which have their own generators.
+ * @author L. Janke
  */
 public abstract class Exercise {
 

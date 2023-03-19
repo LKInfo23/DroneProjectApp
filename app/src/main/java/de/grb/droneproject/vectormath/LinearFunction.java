@@ -4,14 +4,24 @@ package de.grb.droneproject.vectormath;
 import java.util.Random;
 
 /**
- * This is a class to represent a line in 3d using 2 vectors
+ * class to represent a line in 3d using 2 vectors
+ * <p> the representation of a line is as follows:
+ * line l is defined as l: \vec{x} = \vec{startingPoint} + r * \vec{direction}. r is part of the real numbers.
+ *
+ * @author L. Janke
  */
 public class LinearFunction {
+    /**
+     * a singular point on the line.
+     */
     Vector3D startingPoint;
+    /**
+     * the direction vector of the line.
+     */
     Vector3D direction;
 
     /**
-     * Constructor to construct a line with no given parameters it will create a random line
+     * Constructor to construct a line with no given parameters.
      */
     public LinearFunction() {
         this.startingPoint = new Vector3D();
@@ -19,7 +29,7 @@ public class LinearFunction {
     }
 
     /**
-     * Constructor to construct a linear function using two vectors
+     * Constructor to construct a linear function using two vectors.
      * @param StartingPoint the starting point
      * @param Direction the direction
      */
@@ -29,7 +39,10 @@ public class LinearFunction {
     }
 
     /**
-     * Function to see if two Linear functions are Parallel (doesn't check for Identical functions)
+     * Function to see if two Linear functions are Parallel
+     *
+     * @apiNote does not check for identical functions
+     *
      * @param f a linear function
      * @return if they are parallel
      */
@@ -50,7 +63,8 @@ public class LinearFunction {
 
     /**
      * Function to set a new starting point of the line.
-     * The new starting point will be randomly selected by multiples of the direction vector
+     * The new starting point is a point on the line that is a random number (between 5 and 10) times the direction vector
+     * away from the original starting point
      */
     public void ReconfigureStartingPoint() {
         Random random = new Random();
@@ -58,8 +72,8 @@ public class LinearFunction {
     }
 
     /**
-     * Function to return the linear funciton as a String
-     * @return the linear funciton in String for
+     * Function to return the linear function as a String
+     * @return the linear function in String form
      */
     public String toString() {
         return "x = " + startingPoint.toString() + " + r * " + direction.toString();
@@ -128,7 +142,7 @@ public class LinearFunction {
     }
 
     /**
-     * Function to get the point that is x times the direction vector away from the starting point
+     * Function to get the point that is x times the direction vector plus the starting point
      * @param x the factor used on the direction vector
      * @return the point that is x times the direction vector away from the starting point
      */
@@ -137,7 +151,7 @@ public class LinearFunction {
     }
 
     /**
-     * Funciton to get the value of direction
+     * Function to get the direction vector
      * @return direction
      */
     public Vector3D getDirection() {
@@ -145,9 +159,9 @@ public class LinearFunction {
     }
 
     /**
-     * Function to return the linear function in String form but without the direction vector. This is usefull when the
-     * direction vector is the solution of an exercise
-     * @return the linear funciton in String form without the dirction vector
+     * Function to return the linear function in String form but without the direction vector. This is useful when the
+     * direction vector is the solution of an exercise.
+     * @return the linear function in String form without the direction vector
      */
     public String withoutDirection() {
         return "x = " + startingPoint.toString() + " + r * (";

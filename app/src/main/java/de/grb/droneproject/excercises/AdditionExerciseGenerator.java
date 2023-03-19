@@ -6,6 +6,8 @@ import de.grb.droneproject.vectormath.Vector3D;
 
 /**
  * This class generates addition exercises.
+ * @author L. Janke
+ * @author M. Hagen
  */
 public class AdditionExerciseGenerator extends AddSubExercise {
 
@@ -77,7 +79,10 @@ public class AdditionExerciseGenerator extends AddSubExercise {
                 "\nGeben sie den Punkt an an dem die Drone sich jetzt befindet.\n" + solution + "\n";
     }
 
-
+    /**
+     * a toString() for the addition exercise
+     * @return a String of the exercise
+     */
     public String toString() {
         return firstVector.toString() + " + " + secondVector.toString() + " = " + solution.toString() ;
     }
