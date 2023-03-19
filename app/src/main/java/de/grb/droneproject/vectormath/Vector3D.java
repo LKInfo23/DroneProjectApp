@@ -10,15 +10,15 @@ import java.util.Random;
  */
 public class Vector3D {
     /**
-     * the x coordinate of the vector
+     * the x coordinate of the vector representing the movement in the x direction
      */
     double x;
     /**
-     * the y coordinate of the vector
+     * the y coordinate of the vector representing the movement in the y direction
      */
     double y;
     /**
-     * the z coordinate of the vector
+     * the z coordinate of the vector representing the movement in the z direction
      */
     double z;
 
@@ -47,6 +47,7 @@ public class Vector3D {
 
     /**
      * Constructor to the construct a vector given the x, y, and z values.
+     *
      * @param x the x-component of the vector.
      * @param y the y-component of the vector.
      * @param z the z-component of the vector.
@@ -57,8 +58,17 @@ public class Vector3D {
         this.z = z;
     }
 
+    public Vector3D(double[] xyz) {
+        if(xyz.length != 3)
+            throw new IllegalArgumentException("xyz must have length 3");
+        this.x = xyz[0];
+        this.y = xyz[1];
+        this.z = xyz[2];
+    }
+
     /**
      * Constructor copy a vector.
+     *
      * @param v The vector to be copied.
      */
     public Vector3D(Vector3D v) {
@@ -69,6 +79,7 @@ public class Vector3D {
 
     /**
      * Function returning the magnitude \sqrt{x^2+y^2+z^2} of this vector.
+     *
      * @return the magnitude of this vector
      */
     public double magnitude() {
@@ -139,6 +150,7 @@ public class Vector3D {
     /**
      * Function to normalize this vector. Normalizing means diving the vector by length of the vector to create a unit
      * vector, a vector of length 1 and keeping the original direction.
+     *
      * @return The resulting normalized vector.
      */
     public Vector3D normalize() {
@@ -203,6 +215,7 @@ public class Vector3D {
 
     /**
      * Function to get the x value of this vector
+     *
      * @return the x value of this vector
      */
     public double getX() {
@@ -211,6 +224,7 @@ public class Vector3D {
 
     /**
      * Function to set the x value of this vector
+     *
      * @param x the x value of this vector
      */
     public void setX(double x) {
@@ -219,6 +233,7 @@ public class Vector3D {
 
     /**
      * Function to get the y value of this vector
+     *
      * @return the y value of this vector
      */
     public double getY() {
@@ -227,6 +242,7 @@ public class Vector3D {
 
     /**
      * Function to set the y value of this vector
+     *
      * @param y the y value of this vector
      */
     public void setY(double y) {
@@ -235,6 +251,7 @@ public class Vector3D {
 
     /**
      * Function to get the z value of this vector
+     *
      * @return the z value of this vector
      */
     public double getZ() {
@@ -243,6 +260,7 @@ public class Vector3D {
 
     /**
      * Function to set the z value of this vector
+     *
      * @param z the z value of this vector
      */
     public void setZ(double z) {

@@ -26,6 +26,14 @@ import de.grb.droneproject.excercises.ExerciseType;
 import de.grb.droneproject.networking.DroneCommunicator;
 import de.grb.droneproject.vectormath.Vector3D;
 
+
+/**
+ *
+ * This activity is responsible for the subtraction exercises.
+ * It was called from the {@link MainActivity} but can be ignored now.
+ * Its existence is mainly for historical reasons.
+ */
+@Deprecated
 public class SubtractionActivity extends AppCompatActivity {
 
     private Button checkButton;
@@ -80,94 +88,94 @@ public class SubtractionActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void initExercise() {
-        ExerciseFactory ef = new ExerciseFactory(ExerciseType.Subtraction);
-        SubtractionExerciseGenerator exerciseGen = (SubtractionExerciseGenerator) ef.getGenerator();
-        exerciseGen.Generate();
-        firstVector.setText(exerciseGen.getFirstVector().toTextView());
-        secondVector.setText(exerciseGen.getSecondVector().toTextView());
-
-
-        // listener
-        checkButton.setOnClickListener(v -> {
-
-            // goNext = true means that the next exercise will be generated
-            if (goNext) {
-                // generate new exercise
-                exerciseGen.Generate();
-                firstVector.setText(exerciseGen.getFirstVector().toTextView());
-                secondVector.setText(exerciseGen.getSecondVector().toTextView());
-                goNext = false;
-                checkButton.setText("Check");
-                droneButton.setEnabled(false);
-                inputX.setText("");
-                inputY.setText("");
-                inputZ.setText("");
-
-            } else {
-                // gets input
-                double[] xyzDoubles = {Double.NaN, Double.NaN, Double.NaN};
-                String[] xyzStrings = {
-                        inputX.getText().toString(),
-                        inputY.getText().toString(),
-                        inputZ.getText().toString()
-                };
-
-                for (int i = 0; i < 3; i++) {
-                    try { xyzDoubles[i] = Double.parseDouble(xyzStrings[i]); }
-                    catch (NumberFormatException ignored) {}
-                }
-
-                double x = xyzDoubles[0], y = xyzDoubles[1], z = xyzDoubles[2];
-
-                resultText.setVisibility(TextView.VISIBLE);
-                // checks if input is correct
-                if (exerciseGen.isSolution(new Vector3D(x, y, z))) {
-                    resultText.setTextColor(Color.rgb(0, 255, 0));
-                    resultText.setText("Richtig");
-                    droneButton.setEnabled(droneSwitch.isChecked());
-                    checkButton.setText("Next");
-                } else {
-                    resultText.setTextColor(Color.RED);
-                    resultText.setText("Falsch, " + exerciseGen.getSolution().toString() + " wäre richtig gewesen");
-                }
-                goNext = true;
-                resultText.startAnimation(out);
-            }
-        });
-
-        droneButton.setOnClickListener(v -> {
-            if (!goNext) {
-                showText("Du musst erst die Aufgabe lösen oder die drone ist nicht verbunden", Color.GREEN);
-            }
-            if (goNext) {
-                if (droneCommunicator.isConnected()) {
-                    showText("Drone fliegt zum Ziel", Color.GREEN);
-                    droneCommunicator.send(generateGoToCommand(exerciseGen.getSolution()));
-                    droneButton.setEnabled(false);
-                } else {
-                    showText("Drone ist nicht verbunden", Color.RED);
-                    droneCommunicator.connectToDrone();
-                }
-            }
-        });
-
-        droneSwitch.setOnClickListener(v -> {
-            if (droneSwitch.isChecked()) {
-                droneCommunicator = new DroneCommunicator("192.168.10.1", 8889, this.getApplicationContext());
-                if (droneCommunicator.connectToDrone()) {
-                    showText("Drone verbunden", Color.GREEN);
-                    String takeoff = droneCommunicator.sendAndReceive("takeoff");
-                    if (!takeoff.equals("ok")) {
-                        handleError("Drone konnte nicht gestartet. Überprüfe die Akkuladung.");
-                    }
-                } else {
-                    handleError("Drone konnte nicht verbunden werden");
-                }
-            } else {
-                if (droneCommunicator != null) droneCommunicator.sendAndReceive("land");
-                handleError("drone wurde getrennt");
-            }
-        });
+//        ExerciseFactory ef = new ExerciseFactory(ExerciseType.Subtraction);
+//        SubtractionExerciseGenerator exerciseGen = (SubtractionExerciseGenerator) ef.getGenerator();
+//        exerciseGen.Generate();
+//        firstVector.setText(exerciseGen.getFirstVector().toTextView());
+//        secondVector.setText(exerciseGen.getSecondVector().toTextView());
+//
+//
+//        // listener
+//        checkButton.setOnClickListener(v -> {
+//
+//            // goNext = true means that the next exercise will be generated
+//            if (goNext) {
+//                // generate new exercise
+//                exerciseGen.Generate();
+//                firstVector.setText(exerciseGen.getFirstVector().toTextView());
+//                secondVector.setText(exerciseGen.getSecondVector().toTextView());
+//                goNext = false;
+//                checkButton.setText("Check");
+//                droneButton.setEnabled(false);
+//                inputX.setText("");
+//                inputY.setText("");
+//                inputZ.setText("");
+//
+//            } else {
+//                // gets input
+//                double[] xyzDoubles = {Double.NaN, Double.NaN, Double.NaN};
+//                String[] xyzStrings = {
+//                        inputX.getText().toString(),
+//                        inputY.getText().toString(),
+//                        inputZ.getText().toString()
+//                };
+//
+//                for (int i = 0; i < 3; i++) {
+//                    try { xyzDoubles[i] = Double.parseDouble(xyzStrings[i]); }
+//                    catch (NumberFormatException ignored) {}
+//                }
+//
+//                double x = xyzDoubles[0], y = xyzDoubles[1], z = xyzDoubles[2];
+//
+//                resultText.setVisibility(TextView.VISIBLE);
+//                // checks if input is correct
+//                if (exerciseGen.isSolution(new Vector3D(x, y, z))) {
+//                    resultText.setTextColor(Color.rgb(0, 255, 0));
+//                    resultText.setText("Richtig");
+//                    droneButton.setEnabled(droneSwitch.isChecked());
+//                    checkButton.setText("Next");
+//                } else {
+//                    resultText.setTextColor(Color.RED);
+//                    resultText.setText("Falsch, " + exerciseGen.getSolution().toString() + " wäre richtig gewesen");
+//                }
+//                goNext = true;
+//                resultText.startAnimation(out);
+//            }
+//        });
+//
+//        droneButton.setOnClickListener(v -> {
+//            if (!goNext) {
+//                showText("Du musst erst die Aufgabe lösen oder die drone ist nicht verbunden", Color.GREEN);
+//            }
+//            if (goNext) {
+//                if (droneCommunicator.isConnected()) {
+//                    showText("Drone fliegt zum Ziel", Color.GREEN);
+//                    droneCommunicator.send(generateGoToCommand(exerciseGen.getSolution()));
+//                    droneButton.setEnabled(false);
+//                } else {
+//                    showText("Drone ist nicht verbunden", Color.RED);
+//                    droneCommunicator.connectToDrone();
+//                }
+//            }
+//        });
+//
+//        droneSwitch.setOnClickListener(v -> {
+//            if (droneSwitch.isChecked()) {
+//                droneCommunicator = new DroneCommunicator("192.168.10.1", 8889, this.getApplicationContext());
+//                if (droneCommunicator.connectToDrone()) {
+//                    showText("Drone verbunden", Color.GREEN);
+//                    String takeoff = droneCommunicator.sendAndReceive("takeoff");
+//                    if (!takeoff.equals("ok")) {
+//                        handleError("Drone konnte nicht gestartet. Überprüfe die Akkuladung.");
+//                    }
+//                } else {
+//                    handleError("Drone konnte nicht verbunden werden");
+//                }
+//            } else {
+//                if (droneCommunicator != null) droneCommunicator.sendAndReceive("land");
+//                handleError("drone wurde getrennt");
+//            }
+//        });
 
     }
 
@@ -195,35 +203,35 @@ public class SubtractionActivity extends AppCompatActivity {
     }
 
     private void initVariables() {
-        checkButton = findViewById(R.id.checkButton);
-        droneButton = findViewById(R.id.droneButton);
-        droneButton.setEnabled(false);
-        firstVector = findViewById(R.id.firstVector);
-        secondVector = findViewById(R.id.secondVector);
-        resultText = findViewById(R.id.resultText);
-        inputX = findViewById(R.id.inputX);
-        inputY = findViewById(R.id.inputY);
-        inputZ = findViewById(R.id.inputZ);
-        ExerciseFactory ef = new ExerciseFactory(ExerciseType.Subtraction);
-        droneSwitch = findViewById(R.id.droneSwitch);
-        droneSwitch.setChecked(false);
-        out.setDuration(5000);
-        out.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                resultText.setVisibility(TextView.INVISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
+//        checkButton = findViewById(R.id.checkButton);
+//        droneButton = findViewById(R.id.droneButton);
+//        droneButton.setEnabled(false);
+//        firstVector = findViewById(R.id.firstVector);
+//        secondVector = findViewById(R.id.secondVector);
+//        resultText = findViewById(R.id.resultText);
+//        inputX = findViewById(R.id.inputX);
+//        inputY = findViewById(R.id.inputY);
+//        inputZ = findViewById(R.id.inputZ);
+//        ExerciseFactory ef = new ExerciseFactory(ExerciseType.Subtraction);
+//        droneSwitch = findViewById(R.id.droneSwitch);
+//        droneSwitch.setChecked(false);
+//        out.setDuration(5000);
+//        out.setAnimationListener(new Animation.AnimationListener() {
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//                resultText.setVisibility(TextView.INVISIBLE);
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//
+//            }
+//        });
     }
 
     public Context getAppContext() {

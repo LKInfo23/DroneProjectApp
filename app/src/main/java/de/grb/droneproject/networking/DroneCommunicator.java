@@ -11,11 +11,19 @@ import java.nio.charset.StandardCharsets;
 
 public class DroneCommunicator {
 
+    /**
+     * The host of the drone/where to connect to.
+     */
     private final String host;
+    /**
+     * The port to connect to. Note: this is UDP.
+     */
     private final int port;
+    /**
+     * The socket to send and receive data from and to the drone.
+     */
     private DatagramSocket droneSocket;
 
-    private Context appContext;
 
     private Logger logger = Keeper.getLogger();
 
@@ -39,10 +47,6 @@ public class DroneCommunicator {
 
     }
 
-    public DroneCommunicator(String host, int port, Context appContext) {
-        this(host, port);
-        this.appContext = appContext;
-    }
 
     public boolean connectToDrone() {
         boolean connected = false;
@@ -74,8 +78,7 @@ public class DroneCommunicator {
             DatagramPacket dp = new DatagramPacket(message.getBytes(StandardCharsets.UTF_8), message.length(), InetAddress.getByName(host), port);
             if (droneSocket.isConnected()) {
                 droneSocket.send(dp);
-                System.out.println("out: "+message);
-                logger.append("out: " + message);
+                log("out: " + message);
             }
             long lastSent = System.currentTimeMillis();
         } catch (IOException e) {
@@ -100,8 +103,7 @@ public class DroneCommunicator {
     public String sendAndReceive(String message) {
         send(message);
         String receive = receive();
-        System.out.println("in: "+receive);
-        logger.append("in: " + receive);
+        log("in:" + receive);
         return receive;
     }
 
@@ -122,6 +124,17 @@ public class DroneCommunicator {
             e.printStackTrace();
         }
         return "";
+    }
+
+    /**
+     * This method is used to log messages to the logger and print them.
+     * This is only used for debugging purposes and enables debugging in the app itself and (not just) in the console.
+     *
+     * @param message The message that should be logged.
+     */
+    private void log(String message) {
+        System.out.println(message);
+        logger.append(message);
     }
 
     public String getHost() {

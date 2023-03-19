@@ -3,7 +3,6 @@ package de.grb.droneproject;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,6 +20,9 @@ import de.grb.droneproject.excercises.ExerciseType;
 import de.grb.droneproject.networking.DroneCommunicator;
 import de.grb.droneproject.vectormath.Vector3D;
 
+import java.util.Arrays;
+
+@SuppressLint("SetTextI18n")
 public class MainActivity extends AppCompatActivity {
 
     private Button checkButton;
@@ -37,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
     private Button droneButton;
     private boolean goNext;
     private DroneCommunicator droneCommunicator;
+    private int colorLast;
+    // used to enter debug mode
+    private double[] debugArray = new double[]{1, 8, 7};
 
 
     @SuppressLint("SetTextI18n")
@@ -46,13 +51,6 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("started");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        int SDK_INT = android.os.Build.VERSION.SDK_INT;
-        if (SDK_INT > 8) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                    .permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-
-        }
 
         initVariables();
         initExercise();
@@ -60,9 +58,6 @@ public class MainActivity extends AppCompatActivity {
         /*
         The following navigation bar currently not in use, as at the time of the initial release,
         there is only addition exercises.
-        */
-
-        /*
 
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.plus);
@@ -95,73 +90,14 @@ public class MainActivity extends AppCompatActivity {
 
         // listener
         checkButton.setOnClickListener(v -> {
-
-            // goNext = true means that the next exercise will be generated
-            if (goNext) {
-                // generate new exercise
-                exerciseGen.Generate();
-                firstVector.setText(exerciseGen.getFirstVector().toTextView());
-                secondVector.setText(exerciseGen.getSecondVector().toTextView());
-                goNext = false;
-                checkButton.setText("Check");
-                droneButton.setEnabled(false);
-                inputX.setText("");
-                inputY.setText("");
-                inputZ.setText("");
-
-            } else {
-                // gets input
-                double[] xyzDoubles = {Double.NaN, Double.NaN, Double.NaN};
-                String[] xyzStrings = {
-                        inputX.getText().toString(),
-                        inputY.getText().toString(),
-                        inputZ.getText().toString()
-                };
-
-                for (int i = 0; i < 3; i++) {
-                    try { xyzDoubles[i] = Double.parseDouble(xyzStrings[i]); }
-                    catch (NumberFormatException ignored) {}
-                }
-
-                double x = xyzDoubles[0], y = xyzDoubles[1], z = xyzDoubles[2];
-
-                resultText.setVisibility(TextView.VISIBLE);
-                int colorLast;
-
-                // checks if input is correct
-                if (exerciseGen.isSolution(new Vector3D(x, y, z))) {
-                    resultText.setTextColor(colorGreen);
-                    colorLast = colorGreen;
-                    resultText.setText("Richtig!");
-                    droneButton.setEnabled(droneSwitch.isChecked());
-                    checkButton.setText("Next");
-                } else {
-                    if(x == 1 && y == 8 && z == 7){
-                        startActivity(new Intent(MainActivity.this, DebugActivity.class));
-                    }
-                    resultText.setTextColor(colorRed);
-                    colorLast = colorRed;
-                    resultText.setText("Falsch, " + exerciseGen.getSolution().toString() + " wäre richtig gewesen");
-                }
-                goNext = true;
-
-                ObjectAnimator colorAnim = ObjectAnimator.ofInt(resultText, "textColor",
-                        colorLast, colorNone);
-                colorAnim.setEvaluator(new ArgbEvaluator());
-                colorAnim.setDuration(5000);
-                colorAnim.start();
-            }
+            handleCheckButton(exerciseGen);
         });
 
         droneButton.setOnClickListener(v -> {
-            if (!goNext) {
-                showText("Du musst erst die Aufgabe lösen und die Drohne verbinden", colorGreen
-                );
-            }
+            if (!goNext) showText("Du musst erst die Aufgabe lösen und die Drohne verbinden", colorGreen);
             if (goNext) {
                 if (droneCommunicator.isConnected()) {
-                    showText("Drohne fliegt zum Ziel", colorGreen
-                    );
+                    showText("Drohne fliegt zum Ziel", colorGreen);
                     droneCommunicator.send(generateGoToCommand(exerciseGen.getSolution()));
                     droneButton.setEnabled(false);
                 } else {
@@ -175,8 +111,7 @@ public class MainActivity extends AppCompatActivity {
             if (droneSwitch.isChecked()) {
                 droneCommunicator = Keeper.getDroneCommunicator();
                 if (droneCommunicator.connectToDrone()) {
-                    showText("Drohne verbunden", colorGreen
-                    );
+                    showText("Drohne verbunden", colorGreen);
                     String takeoff = droneCommunicator.sendAndReceive("takeoff");
                     if (takeoff.equalsIgnoreCase("error")) {
                         handleError("Drohne konnte nicht starten. Überprüfe die Akkuladung!");
@@ -190,6 +125,63 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void handleCheckButton(AdditionExerciseGenerator exerciseGen) {
+        // goNext = true means that the next exercise will be generated
+        if (goNext) {
+            // generate new exercise
+            generateAndFillNewExercise(exerciseGen);
+
+        } else {
+            // gets input
+            double[] xyzDoubles = inputToDoubleArray();
+            // checks if input is correct
+            checkSolution(exerciseGen, xyzDoubles);
+            goNext = true;
+
+        }
+    }
+
+    private double[] inputToDoubleArray() {
+        double[] xyzDoubles = {Double.NaN, Double.NaN, Double.NaN};
+        String[] xyzStrings = {
+                inputX.getText().toString(),
+                inputY.getText().toString(),
+                inputZ.getText().toString()
+        };
+
+        try {
+            for (int i = 0; i < 3; i++) xyzDoubles[i] = Double.parseDouble(xyzStrings[i]);
+        } catch (NumberFormatException ignored) {
+        }
+        return xyzDoubles;
+    }
+
+
+    private void checkSolution(AdditionExerciseGenerator exerciseGen, double[] xyz) {
+        if (exerciseGen.isSolution(new Vector3D(xyz))) {
+            showText("Richtig", colorGreen);
+            droneButton.setEnabled(droneSwitch.isChecked());
+            checkButton.setText("Next");
+        } else {
+            if (Arrays.equals(xyz, debugArray)) {
+                startActivity(new Intent(MainActivity.this, DebugActivity.class));
+            }
+            showText("Falsch, " + exerciseGen.getSolution().toString() + " wäre richtig gewesen", colorRed);
+        }
+    }
+
+    private void generateAndFillNewExercise(AdditionExerciseGenerator exerciseGen) {
+        exerciseGen.Generate();
+        firstVector.setText(exerciseGen.getFirstVector().toTextView());
+        secondVector.setText(exerciseGen.getSecondVector().toTextView());
+        goNext = false;
+        checkButton.setText("Check");
+        droneButton.setEnabled(false);
+        inputX.setText("");
+        inputY.setText("");
+        inputZ.setText("");
     }
 
     private void handleError(String text) {
@@ -210,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String generateGoToCommand(Vector3D v) {
-        return "go " + v.getX() * 100 + " " + v.getY() * 100 + " " + v.getZ() * 100 + " 80";
+        return String.format("go %s %s %s 80", v.getX() * 100, v.getY() * 100, v.getZ() * 100);
     }
 
     private void initVariables() {
@@ -223,14 +215,10 @@ public class MainActivity extends AppCompatActivity {
         inputX = findViewById(R.id.inputX);
         inputY = findViewById(R.id.inputY);
         inputZ = findViewById(R.id.inputZ);
-        ExerciseFactory ef = new ExerciseFactory(ExerciseType.Addition);
         droneSwitch = findViewById(R.id.droneSwitch);
         droneSwitch.setChecked(false);
+        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        if (SDK_INT > 8) StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
     }
-
-    public Context getAppContext() {
-        return getApplicationContext();
-    }
-
 
 }
