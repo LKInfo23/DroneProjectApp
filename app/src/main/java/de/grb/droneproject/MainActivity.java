@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String generateGoToCommand(Vector3D v) {
-        return "go " + v.getX() * 100 + " " + v.getY() * 100 + " " + v.getZ() * 100 + " 10";
+        return "go " + v.getX() * 100 + " " + v.getY() * 100 + " " + v.getZ() * 100 + " 80";
     }
 
     private void initVariables() {
