@@ -1,24 +1,19 @@
 package de.grb.droneproject;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.StrictMode;
-import android.view.MenuItem;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
 import de.grb.droneproject.excercises.AdditionExerciseGenerator;
 import de.grb.droneproject.excercises.ExerciseFactory;
@@ -36,7 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText inputX;
     private EditText inputY;
     private EditText inputZ;
-    private final Animation out = new AlphaAnimation(1.0f, 0.0f);
+    private final int colorGreen = Color.rgb(45, 183, 112);
+    private final int colorRed = Color.rgb(175, 35, 35);
+    private final int colorNone = Color.argb(0, 0, 0, 0);
     private Button droneButton;
     private boolean goNext;
     private DroneCommunicator droneCommunicator;
@@ -99,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         // listener
         checkButton.setOnClickListener(v -> {
 
-            // goNext = true means that the next excercise will be generated
+            // goNext = true means that the next exercise will be generated
             if (goNext) {
                 // generate new exercise
                 exerciseGen.Generate();
@@ -129,35 +126,46 @@ public class MainActivity extends AppCompatActivity {
                 double x = xyzDoubles[0], y = xyzDoubles[1], z = xyzDoubles[2];
 
                 resultText.setVisibility(TextView.VISIBLE);
+                int colorLast;
+
                 // checks if input is correct
                 if (exerciseGen.isSolution(new Vector3D(x, y, z))) {
-                    resultText.setTextColor(Color.rgb(45, 183, 112));
-                    resultText.setText("Richtig");
+                    resultText.setTextColor(colorGreen);
+                    colorLast = colorGreen;
+                    resultText.setText("Richtig!");
                     droneButton.setEnabled(droneSwitch.isChecked());
                     checkButton.setText("Next");
                 } else {
                     if(x == 1 && y == 8 && z == 7){
                         startActivity(new Intent(MainActivity.this, DebugActivity.class));
                     }
-                    resultText.setTextColor(Color.rgb(175, 35, 35));
+                    resultText.setTextColor(colorRed);
+                    colorLast = colorRed;
                     resultText.setText("Falsch, " + exerciseGen.getSolution().toString() + " wäre richtig gewesen");
                 }
                 goNext = true;
-                resultText.startAnimation(out);
+
+                ObjectAnimator colorAnim = ObjectAnimator.ofInt(resultText, "textColor",
+                        colorLast, colorNone);
+                colorAnim.setEvaluator(new ArgbEvaluator());
+                colorAnim.setDuration(5000);
+                colorAnim.start();
             }
         });
 
         droneButton.setOnClickListener(v -> {
             if (!goNext) {
-                showText("Du musst erst die Aufgabe lösen oder die drone ist nicht verbunden", Color.rgb(45, 183, 112));
+                showText("Du musst erst die Aufgabe lösen und die Drohne verbinden", colorGreen
+                );
             }
             if (goNext) {
                 if (droneCommunicator.isConnected()) {
-                    showText("Drone fliegt zum Ziel", Color.rgb(45, 183, 112));
+                    showText("Drohne fliegt zum Ziel", colorGreen
+                    );
                     droneCommunicator.send(generateGoToCommand(exerciseGen.getSolution()));
                     droneButton.setEnabled(false);
                 } else {
-                    showText("Drone ist nicht verbunden", Color.rgb(175, 35, 35));
+                    showText("Drohne ist nicht verbunden", colorRed);
                     droneCommunicator.connectToDrone();
                 }
             }
@@ -167,24 +175,25 @@ public class MainActivity extends AppCompatActivity {
             if (droneSwitch.isChecked()) {
                 droneCommunicator = Keeper.getDroneCommunicator();
                 if (droneCommunicator.connectToDrone()) {
-                    showText("Drone verbunden", Color.rgb(45, 183, 112));
+                    showText("Drohne verbunden", colorGreen
+                    );
                     String takeoff = droneCommunicator.sendAndReceive("takeoff");
                     if (takeoff.equalsIgnoreCase("error")) {
-                        handleError("Drone konnte nicht gestartet. Überprüfe die Akkuladung.");
+                        handleError("Drohne konnte nicht starten. Überprüfe die Akkuladung!");
                     }
                 } else {
-                    handleError("Drone konnte nicht verbunden werden");
+                    handleError("Verbindung gescheitert");
                 }
             } else {
                 if (droneCommunicator != null) droneCommunicator.sendAndReceive("land");
-                handleError("drone wurde getrennt");
+                handleError("Verbindung getrennt");
             }
         });
 
     }
 
     private void handleError(String text) {
-        showText(text, Color.rgb(175, 35, 35));
+        showText(text, colorRed);
         droneSwitch.setChecked(false);
         droneCommunicator.disconnect();
     }
@@ -193,7 +202,11 @@ public class MainActivity extends AppCompatActivity {
         resultText.setVisibility(TextView.VISIBLE);
         resultText.setTextColor(color);
         resultText.setText(text);
-        resultText.startAnimation(out);
+        ObjectAnimator colorAnim = ObjectAnimator.ofInt(resultText, "textColor",
+                color, colorNone);
+        colorAnim.setEvaluator(new ArgbEvaluator());
+        colorAnim.setDuration(5000);
+        colorAnim.start();
     }
 
     private String generateGoToCommand(Vector3D v) {
@@ -213,23 +226,6 @@ public class MainActivity extends AppCompatActivity {
         ExerciseFactory ef = new ExerciseFactory(ExerciseType.Addition);
         droneSwitch = findViewById(R.id.droneSwitch);
         droneSwitch.setChecked(false);
-        out.setDuration(5000);
-        out.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                resultText.setVisibility(TextView.INVISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
     }
 
     public Context getAppContext() {
