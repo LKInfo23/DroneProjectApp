@@ -137,8 +137,7 @@ public class MainActivity extends AppCompatActivity {
             // gets input
             double[] xyzDoubles = inputToDoubleArray();
             // checks if input is correct
-            checkSolution(exerciseGen, xyzDoubles);
-            goNext = true;
+            goNext = checkSolution(exerciseGen, xyzDoubles);
 
         }
     }
@@ -159,16 +158,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void checkSolution(AdditionExerciseGenerator exerciseGen, double[] xyz) {
+    private boolean checkSolution(AdditionExerciseGenerator exerciseGen, double[] xyz) {
         if (exerciseGen.isSolution(new Vector3D(xyz))) {
             showText("Richtig", colorGreen);
             droneButton.setEnabled(droneSwitch.isChecked());
             checkButton.setText("Next");
+            return true;
         } else {
             if (Arrays.equals(xyz, debugArray)) {
                 startActivity(new Intent(MainActivity.this, DebugActivity.class));
             }
             showText("Falsch, " + exerciseGen.getSolution().toString() + " wäre richtig gewesen", colorRed);
+            return false;
         }
     }
 
