@@ -13,6 +13,7 @@ import de.grb.droneproject.util.Logger;
 
 public class DebugActivity extends AppCompatActivity {
 
+    private Button batteryButton;
     private Button reconnectButton;
     private Button flyButton;
     private Button backButton;
@@ -38,6 +39,11 @@ public class DebugActivity extends AppCompatActivity {
 
     private void initVariables() {
 
+        this.batteryButton = findViewById(R.id.batteryButton);
+        batteryButton.setOnClickListener(v -> {
+            droneCommunicator.sendAndReceive("battery?");
+            this.droneLog.setText(logger.getLog());
+        });
         this.reconnectButton = findViewById(R.id.reconnectButton);
         reconnectButton.setOnClickListener(v -> {
             droneCommunicator.connectToDrone();

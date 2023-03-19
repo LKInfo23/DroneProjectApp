@@ -4,12 +4,17 @@
                                                    android:layout_height="match_parent">
 
     <Button
-            android:text="fly"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/flyButton"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.498" app:layout_constraintVertical_bias="0.262"/>
+        android:id="@+id/flyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="fly"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.224" />
+
     <EditText
             android:layout_width="77dp"
             android:layout_height="46dp"
@@ -38,20 +43,43 @@
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginStart="40dp"
             app:layout_constraintVertical_bias="0.087"/>
+
     <Button
-            android:text="reconnect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/reconnectButton"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="304dp"
-            app:layout_constraintHorizontal_bias="0.139" app:layout_constraintBottom_toTopOf="@+id/backButton"/>
+        android:id="@+id/batteryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="battery"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.139"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.366" />
+
     <Button
-            android:text="back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/backButton"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.126"
-            android:layout_marginBottom="260dp"/>
+        android:id="@+id/reconnectButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="reconnect"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.139"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/batteryButton"
+        app:layout_constraintVertical_bias="0.053" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.123"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/batteryButton"
+        app:layout_constraintVertical_bias="0.222" />
+
     <TextView
             android:layout_width="203dp"
             android:layout_height="300dp" android:id="@+id/droneLog"
