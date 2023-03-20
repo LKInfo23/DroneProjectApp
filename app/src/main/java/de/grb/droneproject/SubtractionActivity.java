@@ -32,6 +32,7 @@ import de.grb.droneproject.vectormath.Vector3D;
  * This activity is responsible for the subtraction exercises.
  * It was called from the {@link MainActivity} but can be ignored now.
  * Its existence is mainly for historical reasons.
+ * @author K. Donato
  */
 @Deprecated
 public class SubtractionActivity extends AppCompatActivity {
