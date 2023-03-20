@@ -47,7 +47,10 @@ public class DroneCommunicator {
 
     }
 
-
+    /**
+     * This function sends a message to the drone and returns the response.
+     * @return The response of the drone.
+     */
     public boolean connectToDrone() {
         boolean connected = false;
         try {
@@ -80,12 +83,14 @@ public class DroneCommunicator {
                 droneSocket.send(dp);
                 log("out: " + message);
             }
-            long lastSent = System.currentTimeMillis();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * This function disconnects the drone and closes the socket.
+     */
     public void disconnect() {
         if (droneSocket != null) {
             droneSocket.disconnect();

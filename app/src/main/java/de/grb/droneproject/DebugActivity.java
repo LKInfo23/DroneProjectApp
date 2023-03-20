@@ -1,5 +1,6 @@
 package de.grb.droneproject;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -13,6 +14,7 @@ import de.grb.droneproject.util.Logger;
 
 public class DebugActivity extends AppCompatActivity {
 
+    // variables representing the UI elements
     private Button batteryButton;
     private Button reconnectButton;
     private Button flyButton;
@@ -23,12 +25,19 @@ public class DebugActivity extends AppCompatActivity {
     private TextView droneLog;
     private TextView currentSpeedView;
     private SeekBar speedBar;
+    // droneCommunicator and logger are used to communicate with the drone and to log the output
     private DroneCommunicator droneCommunicator = Keeper.getDroneCommunicator();
     private Logger logger = Keeper.getLogger();
-
+    // speed is used to set the speed of the drone
     private int speed = 10;
 
-
+    /**
+     * Called when the activity is starting.  This is where most initialization
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getSupportActionBar().hide();
@@ -37,6 +46,9 @@ public class DebugActivity extends AppCompatActivity {
         initVariables();
     }
 
+    /**
+     * Initializes the variables representing the UI elements.
+     */
     private void initVariables() {
 
         this.batteryButton = findViewById(R.id.batteryButton);
@@ -65,6 +77,7 @@ public class DebugActivity extends AppCompatActivity {
         this.speedBar = findViewById(R.id.speedBar);
         int minSpeed = 10;
         speedBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 speed = progress + minSpeed;

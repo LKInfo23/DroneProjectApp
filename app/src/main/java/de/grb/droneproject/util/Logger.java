@@ -4,7 +4,7 @@ package de.grb.droneproject.util;
 /**
  * This is a class representing a logger, which is used to log the output of the Drone's movement.
  * This is only used for debugging purposes.
- * Please more or less ignore this class. A conventional logger would be better but this was faster and easier.
+ * Please more or less ignore this class. A conventional logger would have been better but this was faster and easier.
  * @author F. Ottenburg
  */
 public class Logger {
